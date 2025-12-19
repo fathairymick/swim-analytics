@@ -1,4 +1,4 @@
-import { QualifyingStandards, TimeStandard } from "./types";
+import { QualifyingStandards, TimeStandard, Competition } from "./types";
 
 // Helper to parse "MM:SS.HH" or "SS.HH" to ms
 function p(timeStr: string): number {
@@ -194,3 +194,39 @@ export const DEFAULT_QT_DB: QualifyingStandards = {
         times: scaleStandards(ESSEX_2026_TIMES, 0.90) // Estimate
     }
 };
+
+export const DEFAULT_COMPETITIONS: Competition[] = [
+    {
+        id: 'default-essex-2026',
+        name: 'Essex County Championships 2026',
+        qualifyingPeriod: {
+            start: '2025-09-01',
+            end: '2025-12-15'
+        },
+        ageAtDate: '2026-12-31',
+        course: 'LCM',
+        standards: DEFAULT_QT_DB.County.times
+    },
+    {
+        id: 'default-east-region-2026',
+        name: 'Swim England East Region Long Course Championships 2026',
+        qualifyingPeriod: {
+            start: '2026-01-01',
+            end: '2026-05-31'
+        },
+        ageAtDate: '2026-12-31',
+        course: 'LCM',
+        standards: DEFAULT_QT_DB.Regional.times
+    },
+    {
+        id: 'default-nationals-2026',
+        name: 'Swim England National Summer Meet 2026',
+        qualifyingPeriod: {
+            start: '2026-03-13',
+            end: '2026-05-31'
+        },
+        ageAtDate: '2026-12-31',
+        course: 'LCM',
+        standards: DEFAULT_QT_DB.National.times
+    }
+];

@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Swimmer, SwimTime, QualifyingStandards, Competition } from './types';
-import { DEFAULT_QT_DB } from './defaults';
+import { DEFAULT_QT_DB, DEFAULT_COMPETITIONS } from './defaults';
 
 interface SwimContextType {
     swimmers: Swimmer[];
@@ -53,9 +53,11 @@ export function SwimProvider({ children }: { children: ReactNode }) {
 
         // Load competitions
         const savedCompetitions = localStorage.getItem('swimCompetitions');
+        let currentCompetitions: Competition[] = [];
+
         if (savedCompetitions) {
             const parsed = JSON.parse(savedCompetitions);
-            // Migration logic for competitions (same as before)
+            // Migration logic for competitions
             const migrated = parsed.map((comp: any) => {
                 if (!comp.qualifyingPeriod && comp.date) {
                     return {
@@ -66,10 +68,22 @@ export function SwimProvider({ children }: { children: ReactNode }) {
                 }
                 return comp;
             });
-            setCompetitions(migrated);
-            if (JSON.stringify(migrated) !== JSON.stringify(parsed)) {
-                localStorage.setItem('swimCompetitions', JSON.stringify(migrated));
-            }
+            currentCompetitions = migrated;
+        }
+
+        // Seed Default Competitions
+        // Check if defaults exist, if not add them. (Avoid duplicates by ID).
+        const existingIds = new Set(currentCompetitions.map(c => c.id));
+        const newDefaults = DEFAULT_COMPETITIONS.filter(dc => !existingIds.has(dc.id));
+
+        if (newDefaults.length > 0) {
+            currentCompetitions = [...currentCompetitions, ...newDefaults];
+            console.log(`Seeded ${newDefaults.length} default competitions.`);
+        }
+
+        setCompetitions(currentCompetitions);
+        if (newDefaults.length > 0 || (savedCompetitions && JSON.stringify(JSON.parse(savedCompetitions)) !== JSON.stringify(currentCompetitions))) {
+            localStorage.setItem('swimCompetitions', JSON.stringify(currentCompetitions));
         }
 
         // Load Swimmers & Migrate Legacy Data

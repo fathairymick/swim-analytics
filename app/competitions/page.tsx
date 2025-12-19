@@ -39,20 +39,6 @@ export default function CompetitionsPage() {
         }
     };
 
-    const handleQuickAddEastRegion = () => {
-        const competition: Competition = {
-            id: crypto.randomUUID(),
-            name: "Swim England East Region Long Course Championships 2026",
-            qualifyingPeriod: {
-                start: "2026-01-01",
-                end: "2026-05-31"
-            },
-            ageAtDate: "2026-12-31",
-            standards: DEFAULT_QT_DB.Regional.times
-        };
-        addCompetition(competition);
-        alert("Competition added! Please verify the qualifying times.");
-    };
 
     return (
         <div className="space-y-8">
@@ -62,9 +48,6 @@ export default function CompetitionsPage() {
                     <p className="text-muted-foreground">Manage competitions and specific qualifying times.</p>
                 </div>
                 <div className="flex gap-2">
-                    <Button variant="outline" onClick={handleQuickAddEastRegion}>
-                        <Plus className="mr-2 h-4 w-4" /> Quick Add: East Region 2026
-                    </Button>
                     <Button onClick={() => setIsCreating(true)}><Plus className="mr-2 h-4 w-4" /> New Competition</Button>
                 </div>
             </div>
