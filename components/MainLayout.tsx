@@ -74,10 +74,34 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
             {/* Main Content */}
             <main className="flex-1 overflow-auto">
-                <div className="p-8 max-w-7xl mx-auto">
+                <div className="p-8 pb-24 md:pb-8 max-w-7xl mx-auto">
                     {children}
                 </div>
             </main>
+
+            {/* Mobile Bottom Navigation */}
+            <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card border-t flex justify-around p-4 z-50 pb-safe">
+                <Link href="/" className={`flex flex-col items-center gap-1 ${pathname === '/' ? 'text-primary' : 'text-muted-foreground'}`}>
+                    <Home className="h-5 w-5" />
+                    <span className="text-[10px]">Home</span>
+                </Link>
+                <Link href="/analysis" className={`flex flex-col items-center gap-1 ${pathname === '/analysis' ? 'text-primary' : 'text-muted-foreground'}`}>
+                    <BarChart2 className="h-5 w-5" />
+                    <span className="text-[10px]">Analysis</span>
+                </Link>
+                <Link href="/times" className={`flex flex-col items-center gap-1 ${pathname === '/times' ? 'text-primary' : 'text-muted-foreground'}`}>
+                    <Clock className="h-5 w-5" />
+                    <span className="text-[10px]">Times</span>
+                </Link>
+                <Link href="/competitions" className={`flex flex-col items-center gap-1 ${pathname === '/competitions' ? 'text-primary' : 'text-muted-foreground'}`}>
+                    <Trophy className="h-5 w-5" />
+                    <span className="text-[10px]">Events</span>
+                </Link>
+                <Link href="/profile" className={`flex flex-col items-center gap-1 ${pathname === '/profile' ? 'text-primary' : 'text-muted-foreground'}`}>
+                    <Activity className="h-5 w-5" />
+                    <span className="text-[10px]">Profile</span>
+                </Link>
+            </nav>
         </div>
     );
 }
